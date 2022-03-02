@@ -116,6 +116,7 @@ class _ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     int index = 0;
     double scaleFirst = 0;
     double scaleLast = 0;
@@ -156,6 +157,7 @@ class _ItemList extends StatelessWidget {
                   .clamp(0, 1);
             }
 
+
             index = itemPositionsListener.itemPositions.value.first.index;
             scaleFirst = (itemPositionsListener
                 .itemPositions.value.first.itemTrailingEdge *
@@ -173,7 +175,7 @@ class _ItemList extends StatelessWidget {
               return ItemCard(
                   itemsList: itemsList,
                   i: i,
-                  scale: i != index ? scaleLast : 1 - scaleFirst,
+                  scale: i != index ? 0 : 1 - scaleFirst,
                   width: widthCard,
                   onTap: () {
                     Navigator.of(context).push(PageRouteBuilder(
