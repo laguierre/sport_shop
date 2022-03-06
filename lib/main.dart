@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Sport App Flutter Demo',
         theme: myTheme,
-        home: HomePage(),
+        home: const HomePage(),
       ),
     );
   }

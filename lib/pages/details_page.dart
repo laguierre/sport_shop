@@ -5,8 +5,6 @@ import 'package:sport_shop/data/constants.dart';
 import 'package:sport_shop/models/items_model.dart';
 import 'package:sport_shop/models/sizebtn_model.dart';
 
-import '../data/items_data.dart';
-
 class DetailsPage extends StatefulWidget {
   DetailsPage({Key? key, required this.item}) : super(key: key);
 
@@ -28,12 +26,12 @@ class _DetailsPageState extends State<DetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: size.height * 0.40,
+            height: size.height * 0.35,
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
                 Container(
-                  height: size.height * 0.35,
+                  height: size.height * 0.28,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(60),
@@ -42,7 +40,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                 ),
                 Positioned(
-                  top: size.height * 0.1,
+                  bottom: 0,
                   child: Hero(
                     tag: widget.item.images,
                     child: SizedBox(
@@ -70,10 +68,15 @@ class _DetailsPageState extends State<DetailsPage> {
                     const SizedBox(height: 25),
                     _Title(items: widget.item),
                     const SizedBox(height: 15),
-                    Text(widget.item.description, maxLines: 5,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.headline4),
-                    Expanded(child: Container()),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Text(widget.item.description,
+                            style: Theme.of(context).textTheme.headline4),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    //Expanded(child: Container()),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -110,7 +113,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: const [
                         _QtyButton(text: '1', tagSizeBtn: 1),
                         _QtyButton(text: '2', tagSizeBtn: 2),
                         _QtyButton(text: '5', tagSizeBtn: 3),
@@ -160,7 +163,7 @@ class _QtyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int i = Provider.of<SizeButtonModel>(context, listen: false).number;
+    int i = Provider.of<SizeButtonModel>(context).number;
     return SizedBox(
       height: 50,
       child: OutlinedButton(

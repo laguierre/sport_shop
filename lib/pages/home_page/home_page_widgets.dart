@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/constants.dart';
@@ -10,7 +11,9 @@ class ItemCard extends StatelessWidget {
     required this.itemsList,
     required this.i,
     required this.scale,
-    required this.width, required this.onTap,
+    required this.width,
+    required this.onTap,
+    required this.height,
   }) : super(key: key);
 
   final List<ItemsModel> itemsList;
@@ -18,11 +21,12 @@ class ItemCard extends StatelessWidget {
   final double scale;
   final double width;
   final VoidCallback onTap;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     var sizeItemsPicture = width * 0.80;
-    double transform = (1 - 0.30 * scale).clamp(0, 1);
+    double transform = (1 - scale).clamp(0, 1);
     return Container(
       width: width,
       margin: const EdgeInsets.only(left: kPadding * 2),
@@ -31,30 +35,40 @@ class ItemCard extends StatelessWidget {
         child: Stack(
           children: [
             Container(
+                height: height - 10,
                 width: width * 0.8,
                 decoration: BoxDecoration(
                   color: itemsList[i].background,
                   borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: itemsList[i].background.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: Offset(15, 5), // changes position of shadow
+                    ),
+                  ],
                 ),
                 child: Padding(
-                    padding: const EdgeInsets.only(top: 25, right: 10, left: 15),
+                    padding:
+                        const EdgeInsets.only(top: 25, right: 10, left: 15),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             itemsList[i].title,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 letterSpacing: 1.5,
                                 overflow: TextOverflow.ellipsis,
-                                color: Colors.white,
+                                color: itemsList[i].textTitleColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 28,
                                 fontFamily: 'Roboto'),
                           ),
                           const SizedBox(height: 5),
                           Text('\$${itemsList[i].price.toString()}',
-                              style: const TextStyle(
-                                  color: Colors.white,
+                              style: TextStyle(
+                                  color: itemsList[i].textPriceColor,
                                   fontSize: 22,
                                   fontWeight: FontWeight.w400))
                         ]))),
@@ -65,7 +79,8 @@ class ItemCard extends StatelessWidget {
                     tag: itemsList[i].images,
                     child: Transform(
                       alignment: Alignment.bottomLeft,
-                      transform: Matrix4.identity()..scale(transform, transform),
+                      transform: Matrix4.identity()
+                        ..scale(transform, transform),
                       child: Image.asset(itemsList[i].images,
                           width: sizeItemsPicture, fit: BoxFit.fill),
                     ))),
@@ -118,6 +133,31 @@ class PopularCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+class MyAppBar extends StatelessWidget {
+  const MyAppBar({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        children: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(CupertinoIcons.arrow_left, color: kPrimaryColor)),
+          Expanded(
+            child: Container(),
+          ),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(CupertinoIcons.search, color: kPrimaryColor))
+        ],
+      ),
     );
   }
 }
