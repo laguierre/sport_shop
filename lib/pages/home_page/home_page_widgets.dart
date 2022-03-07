@@ -36,7 +36,7 @@ class ItemCard extends StatelessWidget {
           children: [
             Container(
                 height: height - 10,
-                width: width * 0.8,
+                width: sizeItemsPicture,
                 decoration: BoxDecoration(
                   color: itemsList[i].background,
                   borderRadius: BorderRadius.circular(20),

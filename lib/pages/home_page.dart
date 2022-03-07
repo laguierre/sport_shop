@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MyAppBar(),
+          const MyAppBar(),
           const SizedBox(height: 15),
           Container(
               alignment: Alignment.centerLeft,
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 }
-
+///Circular Progress Bar when BackGround Colors is calculated///
 class MyCircularProgress extends StatelessWidget {
   const MyCircularProgress({
     Key? key,
@@ -108,7 +108,7 @@ class MyCircularProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
       ),
@@ -168,10 +168,9 @@ class _ItemList extends StatelessWidget {
     required this.currentPage,
   }) : super(key: key);
 
-  final double heightCard;
-
   final List<ItemsModel> itemsList;
   final double widthCard;
+  final double heightCard;
   final PageController pageController;
   final double currentPage;
 
@@ -196,7 +195,7 @@ class _ItemList extends StatelessWidget {
               height: heightCard,
               onTap: () {
                 Navigator.of(context).push(PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 500),
+                    transitionDuration: const Duration(milliseconds: 2000),
                     pageBuilder: (context, animation, _) {
                       return FadeTransition(
                           opacity: Tween<double>(begin: 0.0, end: 1.0).animate(

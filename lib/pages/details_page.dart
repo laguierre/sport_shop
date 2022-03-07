@@ -6,7 +6,12 @@ import 'package:sport_shop/models/items_model.dart';
 import 'package:sport_shop/models/sizebtn_model.dart';
 
 class DetailsPage extends StatefulWidget {
-  DetailsPage({Key? key, required this.item, required this.heightCard, required this.widthCard}) : super(key: key);
+  DetailsPage(
+      {Key? key,
+      required this.item,
+      required this.heightCard,
+      required this.widthCard})
+      : super(key: key);
 
   ItemsModel item;
   double widthCard;
@@ -50,29 +55,38 @@ class _DetailsPageState extends State<DetailsPage>
         child: Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: size.height * 0.35,
+          Container(
+            margin: EdgeInsets.only(left: 0),
+            height: size.height * (-0.335 * animationScale.value + 0.635),
+            width: double.infinity,
+            //color: Colors.blue,
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
-                Transform.rotate(
-                  angle: 1 * (1 - rotate) + 0.7,
-                  //1 * (1 - animationScale.value) + 0.7,
-                  ///Final 0.7
-                  origin: Offset(
-                      ///Final; 150, -50
-                      150 * scale,
-                      -50 * scale),
-                  child: Transform.scale(
-                    scale: 1.5 * animationScale.value +
-                        (1 - animationScale.value) * 2,
-                    child: Container(
-                      height: size.height * 0.28,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(60),
-                        color: widget.item.background,
+                Positioned(
+                  bottom: 0,
+                  child: Transform.rotate(
+                    angle: 0.68*animationScale.value,
+                    //1 * (1 - rotate) + 0.7,
+                    ///Final 0.7
+                    origin: Offset(
+
+                        ///Final; 150, -50
+                        size.height * 0.56,
+                        size.width * 0.07),
+                    child: Transform.scale(
+                      scale: 2.5 * animationScale.value,
+                      //1.5 * animationScale.value +             (1 - animationScale.value) * 2,
+                      child: Container(
+                        width: widget.widthCard * 0.8,
+                        height: widget.heightCard, //size.height * 0.28,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              20 * animationScale.value + 20),
+                          color: widget.item.background,
+                        ),
                       ),
                     ),
                   ),
