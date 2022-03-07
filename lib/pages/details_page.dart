@@ -6,19 +6,46 @@ import 'package:sport_shop/models/items_model.dart';
 import 'package:sport_shop/models/sizebtn_model.dart';
 
 class DetailsPage extends StatefulWidget {
-  DetailsPage({Key? key, required this.item}) : super(key: key);
+  DetailsPage({Key? key, required this.item, required this.heightCard, required this.widthCard}) : super(key: key);
 
   ItemsModel item;
+  double widthCard;
+  double heightCard;
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
 
-class _DetailsPageState extends State<DetailsPage> {
+class _DetailsPageState extends State<DetailsPage>
+    with SingleTickerProviderStateMixin {
+  late Animation<double> animationScale;
+  late AnimationController controllerScale;
+  double rotate = 0, scale = 0;
+
+  @override
+  void initState() {
+    controllerScale =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    animationScale =
+        Tween<double>(begin: 0.0, end: 1.0).animate(controllerScale)
+          ..addListener(() {
+            setState(() {});
+          });
+    controllerScale.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controllerScale.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     double sizeItem = size.height * 0.3;
+
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.white,
@@ -30,13 +57,24 @@ class _DetailsPageState extends State<DetailsPage> {
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
-                Container(
-                  height: size.height * 0.28,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(60),
-                        bottomRight: Radius.circular(60)),
-                    color: widget.item.background,
+                Transform.rotate(
+                  angle: 1 * (1 - rotate) + 0.7,
+                  //1 * (1 - animationScale.value) + 0.7,
+                  ///Final 0.7
+                  origin: Offset(
+                      ///Final; 150, -50
+                      150 * scale,
+                      -50 * scale),
+                  child: Transform.scale(
+                    scale: 1.5 * animationScale.value +
+                        (1 - animationScale.value) * 2,
+                    child: Container(
+                      height: size.height * 0.28,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(60),
+                        color: widget.item.background,
+                      ),
+                    ),
                   ),
                 ),
                 Positioned(
@@ -145,6 +183,18 @@ class _DetailsPageState extends State<DetailsPage> {
                   ],
                 )),
           ),
+          Slider(
+              value: scale,
+              label: "$scale",
+              onChanged: (newValue) {
+                setState(() => scale = newValue);
+              }),
+          Slider(
+              value: rotate,
+              label: "$rotate",
+              onChanged: (newValue) {
+                setState(() => rotate = newValue);
+              }),
         ],
       ),
     ));

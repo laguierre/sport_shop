@@ -45,7 +45,7 @@ class ItemCard extends StatelessWidget {
                       color: itemsList[i].background.withOpacity(0.3),
                       spreadRadius: 1,
                       blurRadius: 7,
-                      offset: Offset(15, 5), // changes position of shadow
+                      offset: const Offset(15, 5), // changes position of shadow
                     ),
                   ],
                 ),

@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   double currentPage = 0;
   final itemsList = ItemsList;
   bool flagInit = false;
-
   @override
   void initState() {
     _pageController.addListener(listenerPage);
@@ -37,7 +36,6 @@ class _HomePageState extends State<HomePage> {
       itemsList[i].textTitleColor = colors.dominantColor!.bodyTextColor;
       itemsList[i].textPriceColor = colors.dominantColor!.titleTextColor;
     }
-
     setState(() {
       flagInit = true;
     });
@@ -146,7 +144,7 @@ class _PopularList extends StatelessWidget {
                             CurvedAnimation(
                                 parent: animation, curve: Curves.easeOut)),
                         child: DetailsPage(
-                          item: itemsList[i],
+                          item: itemsList[i], widthCard: 100, heightCard: 100,
                         ));
                   }));
             },
@@ -205,7 +203,7 @@ class _ItemList extends StatelessWidget {
                               CurvedAnimation(
                                   parent: animation, curve: Curves.easeOut)),
                           child: DetailsPage(
-                            item: itemsList[i],
+                            item: itemsList[i], widthCard: widthCard, heightCard: widthCard,
                           ));
                     }));
               });
