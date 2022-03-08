@@ -25,6 +25,7 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     var sizeItemsPicture = width * 0.80;
     double transform = (1 - scale).clamp(0, 1);
     return Container(
@@ -73,8 +74,8 @@ class ItemCard extends StatelessWidget {
                                   fontWeight: FontWeight.w400))
                         ]))),
             Positioned(
-                bottom: 20,
-                right: 0,
+                bottom: height * 0.07,
+                right: width / 2 - sizeItemsPicture / 2,
                 child: Hero(
                     tag: itemsList[i].images,
                     child: Transform(
@@ -104,11 +105,13 @@ class PopularCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    double sizePopularItems = size.height * 0.095;
     return Row(
       children: [
         SizedBox(
-          width: 80,
-          height: 80,
+          width: sizePopularItems,
+          height: sizePopularItems,
           child: Hero(
               tag: itemsList[i].images,
               child: Image.asset(itemsList[i].images, fit: BoxFit.contain)),
@@ -136,6 +139,7 @@ class PopularCard extends StatelessWidget {
     );
   }
 }
+
 class MyAppBar extends StatelessWidget {
   const MyAppBar({
     Key? key,
@@ -149,7 +153,8 @@ class MyAppBar extends StatelessWidget {
         children: [
           IconButton(
               onPressed: () {},
-              icon: const Icon(CupertinoIcons.arrow_left, color: kPrimaryColor)),
+              icon:
+                  const Icon(CupertinoIcons.arrow_left, color: kPrimaryColor)),
           Expanded(
             child: Container(),
           ),

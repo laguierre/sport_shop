@@ -23,26 +23,25 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage>
     with SingleTickerProviderStateMixin {
-  late Animation<double> animationScale;
-  late AnimationController controllerScale;
-  double rotate = 0, scale = 0;
+  late Animation<double> animation;
+  late AnimationController controller;
+  double scale = 0;
 
   @override
   void initState() {
-    controllerScale =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
-    animationScale =
-        Tween<double>(begin: 0.0, end: 1.0).animate(controllerScale)
-          ..addListener(() {
-            setState(() {});
-          });
-    controllerScale.forward();
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 750));
+    animation = Tween<double>(begin: 0.0, end: 1.0).animate(controller)
+      ..addListener(() {
+        setState(() {});
+      });
+    controller.forward();
     super.initState();
   }
 
   @override
   void dispose() {
-    controllerScale.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -58,34 +57,39 @@ class _DetailsPageState extends State<DetailsPage>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 0),
-            height: size.height * (-0.335 * animationScale.value + 0.635),
+            height: size.height * (-0.335 * animation.value + 0.635) +
+                40 * animation.value,
             width: double.infinity,
-            //color: Colors.blue,
+            //color: Colors.black,
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
                 Positioned(
-                  bottom: 0,
-                  child: Transform.rotate(
-                    angle: 0.68*animationScale.value,
-                    //1 * (1 - rotate) + 0.7,
-                    ///Final 0.7
-                    origin: Offset(
-
-                        ///Final; 150, -50
-                        size.height * 0.56,
-                        size.width * 0.07),
-                    child: Transform.scale(
-                      scale: 2.5 * animationScale.value,
-                      //1.5 * animationScale.value +             (1 - animationScale.value) * 2,
-                      child: Container(
-                        width: widget.widthCard * 0.8,
-                        height: widget.heightCard, //size.height * 0.28,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              20 * animationScale.value + 20),
-                          color: widget.item.background,
+                  bottom: 15 * animation.value,
+                  child: Transform.translate(
+                    offset: Offset(
+                        190 * animation.value - 35, -320 * animation.value),
+                    child: Transform.rotate(
+                      angle: 0.68 * animation.value,
+                      child: Transform.scale(
+                        scale: 1.5 * animation.value + 1,
+                        child: Container(
+                          width: widget.widthCard * 0.8,
+                          height: widget.heightCard * 1.16,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                10 * animation.value + 20),
+                            color: widget.item.background,
+                            boxShadow: [
+                              BoxShadow(
+                                color: widget.item.background.withOpacity(0.4),
+                                spreadRadius: 2,
+                                blurRadius: 2,
+                                offset: const Offset(
+                                    -5, 4), // changes position of shadow
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -98,7 +102,9 @@ class _DetailsPageState extends State<DetailsPage>
                     child: SizedBox(
                         width: sizeItem,
                         height: sizeItem,
-                        child: Image.asset(widget.item.images)),
+                        child: Opacity(
+                            opacity: 1,//(animation.value + 0.3).clamp(0, 1),
+                            child: Image.asset(widget.item.images))),
                   ),
                 ),
                 Positioned(
@@ -128,7 +134,6 @@ class _DetailsPageState extends State<DetailsPage>
                       ),
                     ),
                     const SizedBox(height: 20),
-                    //Expanded(child: Container()),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -160,55 +165,55 @@ class _DetailsPageState extends State<DetailsPage>
                         )
                       ],
                     ),
-                    const SizedBox(height: 20),
-                    const Text('Selected Quantity'),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        _QtyButton(text: '1', tagSizeBtn: 1),
-                        _QtyButton(text: '2', tagSizeBtn: 2),
-                        _QtyButton(text: '5', tagSizeBtn: 3),
-                        _QtyButton(text: '10', tagSizeBtn: 4),
-                        _QtyButton(text: 'Custom', tagSizeBtn: 5),
-                      ],
+                    Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 15),
+                            const Text('Selected Quantity'),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: const [
+                                _QtyButton(text: '1', tagSizeBtn: 1),
+                                _QtyButton(text: '2', tagSizeBtn: 2),
+                                _QtyButton(text: '5', tagSizeBtn: 3),
+                                _QtyButton(text: '10', tagSizeBtn: 4),
+                                _QtyButton(text: 'Custom', tagSizeBtn: 5),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      primary: Colors.black,
+                                      backgroundColor: kPrimaryColor,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25,
+                                          vertical: 1.1 * kPadding)),
+                                  child: const Text(
+                                    'Add to Cart',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  onPressed: () {}),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              primary: Colors.black,
-                              backgroundColor: kPrimaryColor,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 1.1 * kPadding)),
-                          child: const Text(
-                            'Add to Cart',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.normal),
-                          ),
-                          onPressed: () {}),
-                    )
                   ],
                 )),
           ),
-          Slider(
-              value: scale,
-              label: "$scale",
-              onChanged: (newValue) {
-                setState(() => scale = newValue);
-              }),
-          Slider(
-              value: rotate,
-              label: "$rotate",
-              onChanged: (newValue) {
-                setState(() => rotate = newValue);
-              }),
         ],
       ),
     ));

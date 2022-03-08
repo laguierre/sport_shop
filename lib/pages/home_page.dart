@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i < itemsList.length; i++) {
       PaletteGenerator colors = await PaletteGenerator.fromImageProvider(
           AssetImage(itemsList[i].images));
-      itemsList[i].background = colors.dominantColor!.color.withOpacity(0.8);
+      itemsList[i].background = colors.dominantColor!.color.withOpacity(1);
       itemsList[i].textTitleColor = colors.dominantColor!.bodyTextColor;
       itemsList[i].textPriceColor = colors.dominantColor!.titleTextColor;
     }
@@ -137,7 +137,7 @@ class _PopularList extends StatelessWidget {
             child: PopularCard(itemsList: itemsList, i: i),
             onTap: () {
               Navigator.of(context).push(PageRouteBuilder(
-                  transitionDuration: const Duration(milliseconds: 500),
+                  transitionDuration: const Duration(milliseconds: 300),
                   pageBuilder: (context, animation, _) {
                     return FadeTransition(
                         opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -195,7 +195,7 @@ class _ItemList extends StatelessWidget {
               height: heightCard,
               onTap: () {
                 Navigator.of(context).push(PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 2000),
+                    transitionDuration: const Duration(milliseconds: 300),
                     pageBuilder: (context, animation, _) {
                       return FadeTransition(
                           opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
