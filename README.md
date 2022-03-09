@@ -18,11 +18,11 @@ A short demo of a Sport Shop Flutter application, using Hero and Transform widge
 
 ## GIF
 <p align="center">
-"screenshots\sport.gif" height="700"
+<img src="screenshots/sport.gif" height="700">
 </p>
 
 ## Screenshots
 <p align="center">
-"\screenshots\Screenshot_1646866349.png" height="700"
-"\screenshots\Screenshot_1646866400.png" height="700"
+<img src="screenshots\Screenshot_1646866349.png" height="700">
+<img src="screenshots\Screenshot_1646866400.png" height="700">
 </p>
