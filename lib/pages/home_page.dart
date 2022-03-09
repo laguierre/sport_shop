@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _pageController =
       PageController(viewportFraction: 0.83);
+  final _listController = ScrollController();
   double currentPage = 0;
   final itemsList = ItemsList;
   bool flagInit = false;
@@ -48,6 +50,7 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _pageController.removeListener(listenerPage);
     _pageController.dispose();
+    _listController.dispose();
     super.dispose();
   }
 
@@ -101,7 +104,7 @@ class _HomePageState extends State<HomePage> {
           _PopularList(
               itemsList: itemsList,
               widthCard: widthCard,
-              heightCard: heightCard * 0.8)
+              heightCard: heightCard * 0.8, listController: _listController,)
         ],
       ),
     ));
@@ -129,46 +132,50 @@ class _PopularList extends StatelessWidget {
     Key? key,
     required this.itemsList,
     required this.widthCard,
-    required this.heightCard,
+    required this.heightCard, required this.listController,
   }) : super(key: key);
 
   final List<ItemsModel> itemsList;
   final double widthCard;
   final double heightCard;
+  final ScrollController listController;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: FadeIn(
-        duration: Duration(milliseconds: 800),
-        child: ListView.separated(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 3 * kPadding, vertical: kPadding),
-          itemCount: itemsList.length,
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (BuildContext context, int i) {
-            return InkWell(
-              child: PopularCard(itemsList: itemsList, i: i),
-              onTap: () {
-                Navigator.of(context).push(PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 300),
-                    pageBuilder: (context, animation, _) {
-                      return FadeTransition(
-                          opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animation, curve: Curves.easeOut)),
-                          child: DetailsPage(
-                            item: itemsList[i],
-                            widthCard: widthCard,
-                            heightCard: heightCard,
-                          ));
-                    }));
-              },
-            );
-          },
-          separatorBuilder: (BuildContext context, int i) {
-            return const Divider(thickness: 1.5);
-          },
+        duration: const Duration(milliseconds: 800),
+        child: FadingEdgeScrollView.fromScrollView(
+          child: ListView.separated(
+            controller: listController,
+            padding: const EdgeInsets.symmetric(
+                horizontal: 3 * kPadding, vertical: kPadding),
+            itemCount: itemsList.length,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (BuildContext context, int i) {
+              return InkWell(
+                child: PopularCard(itemsList: itemsList, i: i),
+                onTap: () {
+                  Navigator.of(context).push(PageRouteBuilder(
+                      transitionDuration: const Duration(milliseconds: 300),
+                      pageBuilder: (context, animation, _) {
+                        return FadeTransition(
+                            opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
+                                CurvedAnimation(
+                                    parent: animation, curve: Curves.easeOut)),
+                            child: DetailsPage(
+                              item: itemsList[i],
+                              widthCard: widthCard,
+                              heightCard: heightCard,
+                            ));
+                      }));
+                },
+              );
+            },
+            separatorBuilder: (BuildContext context, int i) {
+              return const Divider(thickness: 1.5);
+            },
+          ),
         ),
       ),
     );

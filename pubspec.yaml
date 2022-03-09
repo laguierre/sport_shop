@@ -38,8 +38,7 @@ dependencies:
   provider: ^6.0.2
   palette_generator: ^0.3.3
   animate_do: ^2.1.0
-
-
+  fading_edge_scrollview: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -81,12 +80,12 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Roboto
-       fonts:
-         - asset: lib/assets/fonts/Roboto-Bold.ttf
-           weight: 700
-         - asset: lib/assets/fonts/Roboto-Regular.ttf
-           style: italic
+    - family: Roboto
+      fonts:
+        - asset: lib/assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: lib/assets/fonts/Roboto-Regular.ttf
+          style: italic
 
   #   - family: Trajan Pro
   #     fonts:

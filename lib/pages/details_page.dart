@@ -58,7 +58,7 @@ class _DetailsPageState extends State<DetailsPage>
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
+          SizedBox(
             height: size.height * (-0.335 * animation.value + 0.635) +
                 40 * animation.value,
             width: double.infinity,
