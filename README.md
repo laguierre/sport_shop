@@ -1,6 +1,6 @@
 # Sport Shop Flutter App
 
-A short demo of a Sport Shop Flutter application, using Hero and Transform widget. Inspired in the design of @stark_trent [link](https://www.instagram.com/p/CQ3XpZaD-yM/).
+A short demo of a Sport Shop Flutter application, using Hero and Transform widget. Inspired in @stark_trent's design[link](https://www.instagram.com/p/CQ3XpZaD-yM/).
 - PageView.builder.
 - Provider for conserve the state of the buttons and filter by categories. Note: Basket and Football don't have any items to show.
 - Fading Edge Scrollview for fade in the edge of Popular List.
