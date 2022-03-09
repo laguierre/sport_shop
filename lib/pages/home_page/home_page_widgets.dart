@@ -25,7 +25,6 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     var sizeItemsPicture = width * 0.80;
     double transform = (1 - scale).clamp(0, 1);
     return Container(

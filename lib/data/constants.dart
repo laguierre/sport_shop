@@ -7,7 +7,8 @@ final List <String> btnNamesText = [
   'All',
   'Nike',
   'Adidas',
+  'Spalding',
+  'Generic',
   'Basket',
   'Football',
-  'Sneakers',
 ];

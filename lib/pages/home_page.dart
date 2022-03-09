@@ -1,6 +1,8 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:provider/provider.dart';
+import 'package:sport_shop/models/brand_model.dart';
 import 'package:sport_shop/models/items_model.dart';
 import 'package:sport_shop/pages/details_page.dart';
 import '../data/constants.dart';
@@ -17,10 +19,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _pageController =
-      PageController(viewportFraction: 0.83, initialPage: 0);
+      PageController(viewportFraction: 0.83);
   double currentPage = 0;
   final itemsList = ItemsList;
   bool flagInit = false;
+
   @override
   void initState() {
     _pageController.addListener(listenerPage);
@@ -49,17 +52,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   void listenerPage() {
-    setState(() {
-      currentPage = _pageController.page!;
-    });
+    Provider.of<BrandFilterModel>(context, listen: false).currentPage =
+        _pageController.page!;
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     int number = Provider.of<TopButtonModel>(context).number;
+    var filteredList = Provider.of<BrandFilterModel>(context).filteredList;
     double heightCard = size.height * 0.42;
     double widthCard = size.width * 0.7;
+    double currentPage = Provider.of<BrandFilterModel>(context).currentPage;
 
     if (!flagInit) {
       return const MyCircularProgress();
@@ -78,11 +82,11 @@ class _HomePageState extends State<HomePage> {
               child:
                   Text('Items', style: Theme.of(context).textTheme.headline1)),
           const SizedBox(height: 15),
-          _TopButtons(number: number),
+          _TopButtons(number: number, pageController: _pageController),
           const SizedBox(height: 30),
           _ItemList(
             heightCard: heightCard,
-            itemsList: itemsList,
+            itemsList: filteredList,
             widthCard: widthCard,
             pageController: _pageController,
             currentPage: currentPage,
@@ -94,12 +98,16 @@ class _HomePageState extends State<HomePage> {
                 Text('Popular', style: Theme.of(context).textTheme.bodyText2),
           ),
           const SizedBox(height: 15),
-          _PopularList(itemsList: itemsList)
+          _PopularList(
+              itemsList: itemsList,
+              widthCard: widthCard,
+              heightCard: heightCard * 0.8)
         ],
       ),
     ));
   }
 }
+
 ///Circular Progress Bar when BackGround Colors is calculated///
 class MyCircularProgress extends StatelessWidget {
   const MyCircularProgress({
@@ -120,39 +128,48 @@ class _PopularList extends StatelessWidget {
   const _PopularList({
     Key? key,
     required this.itemsList,
+    required this.widthCard,
+    required this.heightCard,
   }) : super(key: key);
 
   final List<ItemsModel> itemsList;
+  final double widthCard;
+  final double heightCard;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 3 * kPadding, vertical: kPadding),
-        itemCount: itemsList.length,
-        physics: const BouncingScrollPhysics(),
-        itemBuilder: (BuildContext context, int i) {
-          return InkWell(
-            child: PopularCard(itemsList: itemsList, i: i),
-            onTap: () {
-              Navigator.of(context).push(PageRouteBuilder(
-                  transitionDuration: const Duration(milliseconds: 300),
-                  pageBuilder: (context, animation, _) {
-                    return FadeTransition(
-                        opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
-                            CurvedAnimation(
-                                parent: animation, curve: Curves.easeOut)),
-                        child: DetailsPage(
-                          item: itemsList[i], widthCard: 100, heightCard: 100,
-                        ));
-                  }));
-            },
-          );
-        },
-        separatorBuilder: (BuildContext context, int i) {
-          return const Divider(thickness: 1.5);
-        },
+      child: FadeIn(
+        duration: Duration(milliseconds: 800),
+        child: ListView.separated(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 3 * kPadding, vertical: kPadding),
+          itemCount: itemsList.length,
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (BuildContext context, int i) {
+            return InkWell(
+              child: PopularCard(itemsList: itemsList, i: i),
+              onTap: () {
+                Navigator.of(context).push(PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 300),
+                    pageBuilder: (context, animation, _) {
+                      return FadeTransition(
+                          opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
+                              CurvedAnimation(
+                                  parent: animation, curve: Curves.easeOut)),
+                          child: DetailsPage(
+                            item: itemsList[i],
+                            widthCard: widthCard,
+                            heightCard: heightCard,
+                          ));
+                    }));
+              },
+            );
+          },
+          separatorBuilder: (BuildContext context, int i) {
+            return const Divider(thickness: 1.5);
+          },
+        ),
       ),
     );
   }
@@ -202,7 +219,9 @@ class _ItemList extends StatelessWidget {
                               CurvedAnimation(
                                   parent: animation, curve: Curves.easeOut)),
                           child: DetailsPage(
-                            item: itemsList[i], widthCard: widthCard, heightCard: widthCard,
+                            item: itemsList[i],
+                            widthCard: widthCard,
+                            heightCard: widthCard,
                           ));
                     }));
               });
@@ -212,16 +231,21 @@ class _ItemList extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class _TopButtons extends StatelessWidget {
-  const _TopButtons({
+  _TopButtons({
     Key? key,
     required this.number,
+    required this.pageController,
   }) : super(key: key);
 
   final int number;
+  PageController pageController;
 
   @override
   Widget build(BuildContext context) {
+    var itemsList = ItemsList;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: kPadding),
       height: 38,
@@ -231,29 +255,46 @@ class _TopButtons extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.only(left: kPadding),
         itemBuilder: (BuildContext context, int i) {
-          return OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                  side: number == i
-                      ? const BorderSide(width: 1.5, color: kPrimaryColor)
-                      : const BorderSide(width: 1.5, color: Colors.grey),
-                  shadowColor: kPrimaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  primary: Colors.black,
-                  backgroundColor:
-                      number == i ? kPrimaryColor : Colors.transparent,
-                  padding: const EdgeInsets.symmetric(horizontal: 25)),
-              child: Text(
-                btnNamesText[i],
-                style: TextStyle(
-                    color: number == i ? Colors.white : Colors.grey,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
-              ),
-              onPressed: () {
-                Provider.of<TopButtonModel>(context, listen: false).number = i;
-              });
+          return FadeInLeft(
+            duration: Duration(milliseconds: 100 * (btnNamesText.length - i)),
+            child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    side: number == i
+                        ? const BorderSide(width: 1.5, color: kPrimaryColor)
+                        : const BorderSide(width: 1.5, color: Colors.grey),
+                    shadowColor: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    primary: Colors.black,
+                    backgroundColor:
+                        number == i ? kPrimaryColor : Colors.transparent,
+                    padding: const EdgeInsets.symmetric(horizontal: 25)),
+                child: Text(
+                  btnNamesText[i],
+                  style: TextStyle(
+                      color: number == i ? Colors.white : Colors.grey,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  Provider.of<TopButtonModel>(context, listen: false).number = i;
+                  if (i != 0) {
+                    Provider.of<BrandFilterModel>(context, listen: false)
+                            .filteredList =
+                        itemsList
+                            .where((element) =>
+                                element.brand.contains(btnNamesText[i]))
+                            .toList();
+                  } else {
+                    Provider.of<BrandFilterModel>(context, listen: false)
+                        .filteredList = itemsList;
+                  }
+                  Provider.of<BrandFilterModel>(context, listen: false)
+                      .currentPage = 0;
+                  pageController.animateToPage(0, duration: Duration(milliseconds: 1000), curve: Curves.decelerate);
+                }),
+          );
         },
         separatorBuilder: (BuildContext context, int index) {
           return const SizedBox(width: 12);

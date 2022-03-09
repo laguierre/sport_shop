@@ -37,6 +37,7 @@ dependencies:
   font_awesome_flutter: ^9.2.0
   provider: ^6.0.2
   palette_generator: ^0.3.3
+  animate_do: ^2.1.0
 
 
 

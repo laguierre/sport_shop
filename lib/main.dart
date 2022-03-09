@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sport_shop/models/topbtn_model.dart';
+import 'models/brand_model.dart';
 import 'models/sizebtn_model.dart';
 import 'pages/home_page.dart';
 import 'theme/theme.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => TopButtonModel()),
-        ChangeNotifierProvider(create: (_) => SizeButtonModel())
+        ChangeNotifierProvider(create: (_) => SizeButtonModel()),
+        ChangeNotifierProvider(create: (_) => BrandFilterModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

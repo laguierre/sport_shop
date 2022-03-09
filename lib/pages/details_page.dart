@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +6,7 @@ import 'package:sport_shop/data/constants.dart';
 import 'package:sport_shop/models/items_model.dart';
 import 'package:sport_shop/models/sizebtn_model.dart';
 
+// ignore: must_be_immutable
 class DetailsPage extends StatefulWidget {
   DetailsPage(
       {Key? key,
@@ -103,7 +105,8 @@ class _DetailsPageState extends State<DetailsPage>
                         width: sizeItem,
                         height: sizeItem,
                         child: Opacity(
-                            opacity: 1,//(animation.value + 0.3).clamp(0, 1),
+                            opacity: 1,
+                            //(animation.value + 0.3).clamp(0, 1),
                             child: Image.asset(widget.item.images))),
                   ),
                 ),
@@ -176,36 +179,54 @@ class _DetailsPageState extends State<DetailsPage>
                             const SizedBox(height: 15),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: const [
-                                _QtyButton(text: '1', tagSizeBtn: 1),
-                                _QtyButton(text: '2', tagSizeBtn: 2),
-                                _QtyButton(text: '5', tagSizeBtn: 3),
-                                _QtyButton(text: '10', tagSizeBtn: 4),
-                                _QtyButton(text: 'Custom', tagSizeBtn: 5),
+                              children: [
+                                FadeInLeft(
+                                    duration: const Duration(milliseconds: 900),
+                                    child:
+                                        const _QtyButton(text: '1', tagSizeBtn: 1)),
+                                FadeInLeft(
+                                    duration: const Duration(milliseconds: 800),
+                                    child:
+                                        const _QtyButton(text: '2', tagSizeBtn: 2)),
+                                FadeInLeft(
+                                    duration: const Duration(milliseconds: 700),
+                                    child:
+                                        const _QtyButton(text: '5', tagSizeBtn: 3)),
+                                FadeInLeft(
+                                    duration: const Duration(milliseconds: 500),
+                                    child:
+                                        const _QtyButton(text: '10', tagSizeBtn: 4)),
+                                FadeInLeft(
+                                  duration: const Duration(milliseconds: 300),
+                                    child: const _QtyButton(
+                                        text: 'Custom', tagSizeBtn: 5)),
                               ],
                             ),
                             const SizedBox(height: 20),
-                            SizedBox(
-                              width: double.infinity,
-                              child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      primary: Colors.black,
-                                      backgroundColor: kPrimaryColor,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 25,
-                                          vertical: 1.1 * kPadding)),
-                                  child: const Text(
-                                    'Add to Cart',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                  onPressed: () {}),
+                          FadeInLeft(
+                            duration: const Duration(milliseconds: 1000),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        primary: Colors.black,
+                                        backgroundColor: kPrimaryColor,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 25,
+                                            vertical: 1.1 * kPadding)),
+                                    child: const Text(
+                                      'Add to Cart',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                    onPressed: () {}),
+                              ),
                             )
                           ],
                         ),
