@@ -19,8 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _pageController =
-      PageController(viewportFraction: 0.83);
+  final _pageController = PageController(viewportFraction: 0.83);
   final _listController = ScrollController();
   double currentPage = 0;
   final itemsList = ItemsList;
@@ -85,7 +84,7 @@ class _HomePageState extends State<HomePage> {
               child:
                   Text('Items', style: Theme.of(context).textTheme.headline1)),
           const SizedBox(height: 15),
-          _TopButtons(number: number, pageController: _pageController),
+          TopButtons(number: number, pageController: _pageController),
           const SizedBox(height: 30),
           _ItemList(
             heightCard: heightCard,
@@ -102,28 +101,14 @@ class _HomePageState extends State<HomePage> {
           ),
           const SizedBox(height: 15),
           _PopularList(
-              itemsList: itemsList,
-              widthCard: widthCard,
-              heightCard: heightCard * 0.8, listController: _listController,)
+            itemsList: itemsList,
+            widthCard: widthCard,
+            heightCard: heightCard * 0.8,
+            listController: _listController,
+          )
         ],
       ),
     ));
-  }
-}
-
-///Circular Progress Bar when BackGround Colors is calculated///
-class MyCircularProgress extends StatelessWidget {
-  const MyCircularProgress({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
   }
 }
 
@@ -132,7 +117,8 @@ class _PopularList extends StatelessWidget {
     Key? key,
     required this.itemsList,
     required this.widthCard,
-    required this.heightCard, required this.listController,
+    required this.heightCard,
+    required this.listController,
   }) : super(key: key);
 
   final List<ItemsModel> itemsList;
@@ -160,8 +146,8 @@ class _PopularList extends StatelessWidget {
                       transitionDuration: const Duration(milliseconds: 300),
                       pageBuilder: (context, animation, _) {
                         return FadeTransition(
-                            opacity: Tween<double>(begin: 0.0, end: 1.0).animate(
-                                CurvedAnimation(
+                            opacity: Tween<double>(begin: 0.0, end: 1.0)
+                                .animate(CurvedAnimation(
                                     parent: animation, curve: Curves.easeOut)),
                             child: DetailsPage(
                               item: itemsList[i],
@@ -232,79 +218,6 @@ class _ItemList extends StatelessWidget {
                           ));
                     }));
               });
-        },
-      ),
-    );
-  }
-}
-
-// ignore: must_be_immutable
-class _TopButtons extends StatelessWidget {
-  _TopButtons({
-    Key? key,
-    required this.number,
-    required this.pageController,
-  }) : super(key: key);
-
-  final int number;
-  PageController pageController;
-
-  @override
-  Widget build(BuildContext context) {
-    var itemsList = ItemsList;
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: kPadding),
-      height: 38,
-      child: ListView.separated(
-        itemCount: btnNamesText.length,
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.only(left: kPadding),
-        itemBuilder: (BuildContext context, int i) {
-          return FadeInLeft(
-            duration: Duration(milliseconds: 100 * (btnNamesText.length - i)),
-            child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    side: number == i
-                        ? const BorderSide(width: 1.5, color: kPrimaryColor)
-                        : const BorderSide(width: 1.5, color: Colors.grey),
-                    shadowColor: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                    ),
-                    primary: Colors.black,
-                    backgroundColor:
-                        number == i ? kPrimaryColor : Colors.transparent,
-                    padding: const EdgeInsets.symmetric(horizontal: 25)),
-                child: Text(
-                  btnNamesText[i],
-                  style: TextStyle(
-                      color: number == i ? Colors.white : Colors.grey,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-                onPressed: () {
-                  Provider.of<TopButtonModel>(context, listen: false).number = i;
-                  if (i != 0) {
-                    Provider.of<BrandFilterModel>(context, listen: false)
-                            .filteredList =
-                        itemsList
-                            .where((element) =>
-                                element.brand.contains(btnNamesText[i]))
-                            .toList();
-                  } else {
-                    Provider.of<BrandFilterModel>(context, listen: false)
-                        .filteredList = itemsList;
-                  }
-                  Provider.of<BrandFilterModel>(context, listen: false)
-                      .currentPage = 0;
-                  pageController.animateToPage(0, duration: Duration(milliseconds: 1000), curve: Curves.decelerate);
-                }),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const SizedBox(width: 12);
         },
       ),
     );

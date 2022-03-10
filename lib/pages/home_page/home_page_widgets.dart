@@ -1,8 +1,13 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/constants.dart';
+import '../../data/items_data.dart';
+import '../../models/brand_model.dart';
 import '../../models/items_model.dart';
+import '../../models/topbtn_model.dart';
 
 ///@brief Main Card for Items
 class ItemCard extends StatelessWidget {
@@ -161,6 +166,102 @@ class MyAppBar extends StatelessWidget {
               onPressed: () {},
               icon: const Icon(CupertinoIcons.search, color: kPrimaryColor))
         ],
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class TopButtons extends StatelessWidget {
+  TopButtons({
+    Key? key,
+    required this.number,
+    required this.pageController,
+  }) : super(key: key);
+
+  final int number;
+  PageController pageController;
+
+  @override
+  Widget build(BuildContext context) {
+    var itemsList = ItemsList;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: kPadding),
+      height: 38,
+      child: ListView.separated(
+        itemCount: btnNamesText.length,
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(left: kPadding),
+        itemBuilder: (BuildContext context, int i) {
+          return FadeInLeft(
+            duration: Duration(milliseconds: 100 * (btnNamesText.length - i)),
+            child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    side: number == i
+                        ? const BorderSide(width: 1.5, color: kPrimaryColor)
+                        : const BorderSide(width: 1.5, color: Colors.grey),
+                    shadowColor: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    primary: Colors.black,
+                    backgroundColor:
+                    number == i ? kPrimaryColor : Colors.transparent,
+                    padding: const EdgeInsets.symmetric(horizontal: 25)),
+                child: Text(
+                  btnNamesText[i],
+                  style: TextStyle(
+                      color: number == i ? Colors.white : Colors.grey,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  Provider.of<TopButtonModel>(context, listen: false).number = i;
+                  if (i != 0) {
+                    Provider.of<BrandFilterModel>(context, listen: false)
+                        .filteredList =
+                        itemsList
+                            .where((element) =>
+                            element.brand.contains(btnNamesText[i]))
+                            .toList();
+                  } else {
+                    Provider.of<BrandFilterModel>(context, listen: false)
+                        .filteredList = itemsList;
+                  }
+                  Provider.of<BrandFilterModel>(context, listen: false)
+                      .currentPage = 0;
+                  pageController.animateToPage(0, duration: const Duration(milliseconds: 1000), curve: Curves.decelerate);
+                }),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return const SizedBox(width: 12);
+        },
+      ),
+    );
+  }
+}
+///Circular Progress Bar when BackGround Colors is calculated///
+class MyCircularProgress extends StatelessWidget {
+  const MyCircularProgress({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: const [
+            Text("Loading...", style: TextStyle(fontSize: 20)),
+            SizedBox(height: 20),
+            CircularProgressIndicator(color: kPrimaryColor),
+            SizedBox(height: 50)
+          ],
+        ),
       ),
     );
   }
