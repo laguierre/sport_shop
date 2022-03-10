@@ -132,6 +132,8 @@ class _PopularList extends StatelessWidget {
       child: FadeIn(
         duration: const Duration(milliseconds: 800),
         child: FadingEdgeScrollView.fromScrollView(
+          gradientFractionOnStart: 0.15,
+          gradientFractionOnEnd: 0.15,
           child: ListView.separated(
             controller: listController,
             padding: const EdgeInsets.symmetric(

@@ -1,3 +1,4 @@
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/material.dart';
 import 'package:sport_shop/data/constants.dart';
 import 'package:sport_shop/models/items_model.dart';
@@ -25,11 +26,12 @@ class _DetailsPageState extends State<DetailsPage>
   late Animation<double> animation;
   late AnimationController controller;
   double scale = 0;
+  final singleScrollController = ScrollController();
 
   @override
   void initState() {
     controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 750));
+        vsync: this, duration: const Duration(milliseconds: 500));
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(controller)
       ..addListener(() {
         setState(() {});
@@ -124,10 +126,15 @@ class _DetailsPageState extends State<DetailsPage>
                     MyTitle(items: widget.item),
                     const SizedBox(height: 15),
                     Expanded(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Text(widget.item.description,
-                            style: Theme.of(context).textTheme.headline4),
+                      child: FadingEdgeScrollView.fromSingleChildScrollView(
+                        gradientFractionOnEnd: 0.5,
+                        gradientFractionOnStart: 0.5,
+                        child: SingleChildScrollView(
+                          controller: singleScrollController,
+                          physics: const BouncingScrollPhysics(),
+                          child: Text(widget.item.description,
+                              style: Theme.of(context).textTheme.headline4),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -186,5 +193,3 @@ class _DetailsPageState extends State<DetailsPage>
     ));
   }
 }
-
-

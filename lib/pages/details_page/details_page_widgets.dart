@@ -15,7 +15,7 @@ class AddCartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FadeInLeft(
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 800),
       child: SizedBox(
         width: double.infinity,
         child: OutlinedButton(
@@ -53,23 +53,23 @@ class SelectedQuantityButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         FadeInLeft(
-            duration: const Duration(milliseconds: 900),
+            duration: const Duration(milliseconds: 800),
             child:
             const _QtyButton(text: '1', tagSizeBtn: 1)),
         FadeInLeft(
-            duration: const Duration(milliseconds: 800),
+            duration: const Duration(milliseconds: 700),
             child:
             const _QtyButton(text: '2', tagSizeBtn: 2)),
         FadeInLeft(
-            duration: const Duration(milliseconds: 700),
+            duration: const Duration(milliseconds: 600),
             child:
             const _QtyButton(text: '5', tagSizeBtn: 3)),
         FadeInLeft(
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 400),
             child:
             const _QtyButton(text: '10', tagSizeBtn: 4)),
         FadeInLeft(
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 200),
             child: const _QtyButton(
                 text: 'Custom', tagSizeBtn: 5)),
       ],
