@@ -7,9 +7,13 @@ A short demo of a Sport Shop Flutter application, using Hero and Transform widge
 - Transform and animate controller.
 - Animate Do package for fade in left buttons.
 
+##Graphical resource
+- FlatIcon [link](www.flaticon.com)
+- PNGWing [link](https://www.pngwing.com/)
+
 ##Useful info: Change launch icon
-- https://appicon.co/
-- https://www.geeksforgeeks.org/flutter-changing-app-icon/
+- AppIcon [link](https://appicon.co/)
+- Tutorial for change the Launch Icon [link](https://www.geeksforgeeks.org/flutter-changing-app-icon/)
 
 ## Getting Started
 

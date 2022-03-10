@@ -154,7 +154,8 @@ class _PopularList extends StatelessWidget {
                             child: DetailsPage(
                               item: itemsList[i],
                               widthCard: widthCard,
-                              heightCard: heightCard,
+                              heightCard: heightCard, i: 2,
+
                             ));
                       }));
                 },
@@ -217,6 +218,7 @@ class _ItemList extends StatelessWidget {
                             item: itemsList[i],
                             widthCard: widthCard,
                             heightCard: widthCard,
+                            i: 1,
                           ));
                     }));
               });

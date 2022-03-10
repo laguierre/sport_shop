@@ -81,7 +81,7 @@ class ItemCard extends StatelessWidget {
                 bottom: height * 0.07,
                 right: width / 2 - sizeItemsPicture / 2,
                 child: Hero(
-                    tag: itemsList[i].images,
+                    tag: itemsList[i].images + "1",
                     child: Transform(
                       alignment: Alignment.bottomLeft,
                       transform: Matrix4.identity()
@@ -117,7 +117,7 @@ class PopularCard extends StatelessWidget {
           width: sizePopularItems,
           height: sizePopularItems,
           child: Hero(
-              tag: itemsList[i].images,
+              tag: itemsList[i].images + "2",
               child: Image.asset(itemsList[i].images, fit: BoxFit.contain)),
         ),
         const SizedBox(width: 30),
@@ -208,7 +208,7 @@ class TopButtons extends StatelessWidget {
                     ),
                     primary: Colors.black,
                     backgroundColor:
-                    number == i ? kPrimaryColor : Colors.transparent,
+                        number == i ? kPrimaryColor : Colors.transparent,
                     padding: const EdgeInsets.symmetric(horizontal: 25)),
                 child: Text(
                   btnNamesText[i],
@@ -218,13 +218,14 @@ class TopButtons extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 onPressed: () {
-                  Provider.of<TopButtonModel>(context, listen: false).number = i;
+                  Provider.of<TopButtonModel>(context, listen: false).number =
+                      i;
                   if (i != 0) {
                     Provider.of<BrandFilterModel>(context, listen: false)
-                        .filteredList =
+                            .filteredList =
                         itemsList
                             .where((element) =>
-                            element.brand.contains(btnNamesText[i]))
+                                element.brand.contains(btnNamesText[i]))
                             .toList();
                   } else {
                     Provider.of<BrandFilterModel>(context, listen: false)
@@ -232,7 +233,9 @@ class TopButtons extends StatelessWidget {
                   }
                   Provider.of<BrandFilterModel>(context, listen: false)
                       .currentPage = 0;
-                  pageController.animateToPage(0, duration: const Duration(milliseconds: 1000), curve: Curves.decelerate);
+                  pageController.animateToPage(0,
+                      duration: const Duration(milliseconds: 1000),
+                      curve: Curves.decelerate);
                 }),
           );
         },
@@ -243,6 +246,7 @@ class TopButtons extends StatelessWidget {
     );
   }
 }
+
 ///Circular Progress Bar when BackGround Colors is calculated///
 class MyCircularProgress extends StatelessWidget {
   const MyCircularProgress({
@@ -252,14 +256,20 @@ class MyCircularProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
-            Text("Loading...", style: TextStyle(fontSize: 20)),
-            SizedBox(height: 20),
-            CircularProgressIndicator(color: kPrimaryColor),
-            SizedBox(height: 50)
+          children: [
+            /*Image.asset(
+              "lib/assets/gifs/18346-red-bouncing-sports-balls.gif",
+              height: 200,
+            ),*/
+            const SizedBox(height: 20),
+            const Text("Loading...", style: const TextStyle(fontSize: 20)),
+            const SizedBox(height: 20),
+            const CircularProgressIndicator(color: kPrimaryColor),
+            const SizedBox(height: 50)
           ],
         ),
       ),

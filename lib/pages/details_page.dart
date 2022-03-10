@@ -6,16 +6,18 @@ import 'details_page/details_page_widgets.dart';
 
 // ignore: must_be_immutable
 class DetailsPage extends StatefulWidget {
-  DetailsPage(
-      {Key? key,
-      required this.item,
-      required this.heightCard,
-      required this.widthCard})
-      : super(key: key);
+  DetailsPage({
+    Key? key,
+    required this.item,
+    required this.heightCard,
+    required this.widthCard,
+    required this.i,
+  }) : super(key: key);
 
   ItemsModel item;
   double widthCard;
   double heightCard;
+  int i;
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -99,7 +101,7 @@ class _DetailsPageState extends State<DetailsPage>
                 Positioned(
                   bottom: 0,
                   child: Hero(
-                    tag: widget.item.images,
+                    tag: widget.item.images + widget.i.toString(),
                     child: SizedBox(
                         width: sizeItem,
                         height: sizeItem,
