@@ -39,6 +39,7 @@ dependencies:
   palette_generator: ^0.3.3
   animate_do: ^2.1.0
   fading_edge_scrollview: ^2.0.1
+  lottie: ^1.2.2
 
 dev_dependencies:
   flutter_test:

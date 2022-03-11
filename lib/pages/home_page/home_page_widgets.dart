@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/constants.dart';
@@ -255,21 +256,30 @@ class MyCircularProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            /*Image.asset(
-              "lib/assets/gifs/18346-red-bouncing-sports-balls.gif",
-              height: 200,
-            ),*/
-            const SizedBox(height: 20),
-            const Text("Loading...", style: const TextStyle(fontSize: 20)),
-            const SizedBox(height: 20),
-            const CircularProgressIndicator(color: kPrimaryColor),
-            const SizedBox(height: 50)
+            Expanded(flex: 2, child: Container()),
+            Expanded(
+              flex: 1,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  const Positioned(
+                    bottom: 40,
+                      child:
+                          Text("Loading...", style: TextStyle(fontSize: 20))),
+                  Lottie.asset("lib/assets/gifs/sports-loader.json",
+                      fit: BoxFit.contain, repeat: true),
+                ],
+              ),
+            ),
+            //const Text("Loading...", style: TextStyle(fontSize: 20)),
+
+            //const CircularProgressIndicator(color: kPrimaryColor),
           ],
         ),
       ),

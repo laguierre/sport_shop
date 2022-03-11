@@ -23,6 +23,7 @@ A short demo of a Sport Shop Flutter application, using Hero and Transform widge
 - font_awesome_flutter: ^9.2.0 [link](https://pub.dev/packages/font_awesome_flutter)
 - palette_generator: ^0.3.3 [link](https://pub.dev/packages/palette_generator)
 - animate_do: ^2.1.0 [link](https://pub.dev/packages/animate_do)
+- lottie: ^1.2.2 [link](https://pub.dev/packages/lottie/install)
 
 ## GIF
 <p align="center">
